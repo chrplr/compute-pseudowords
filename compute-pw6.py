@@ -7,23 +7,24 @@ import string
 import pandas as pd
 import numpy as np
 import dico
+import lzma
 
 a = string.ascii_uppercase
 
 #################
 frdic = dico.dico()
-frdic.import_csv('french-lexique-reduced.txt')
+frdic.import_csv('french-lexique-reduced.tsv')
 
 
-frlex = pd.read_csv('french-lexique-reduced.txt', sep='\t')
-frlex6 = frlex.loc[frlex.ORTHO.str.len() == 6]
-frfreqs = frlex6.groupby('ORTHO').sum()
+frlex = pd.read_csv('french-lexique-reduced.tsv', sep='\t')
+frlex6 = frlex.loc[frlex.ortho.str.len() == 6]
+frfreqs = frlex6.groupby('ortho').sum()
 
 ##################
 endic = dico.dico()
-endic.import_csv('english-blp-reduced.txt')
+endic.import_csv('english-blp-reduced.tsv')
 
-enlex = pd.read_csv('english-blp-reduced.txt', sep='\t')
+enlex = pd.read_csv('english-blp-reduced.tsv', sep='\t')
 enlex6 = enlex.loc[enlex.ortho.str.len() == 6]
 enfreqs = enlex6.groupby('ortho').sum()
 
@@ -31,11 +32,9 @@ enfreqs = enlex6.groupby('ortho').sum()
 
 
 for l1 in a:
-    cmd = f'xz --lzma2=dict=192MiB  -c > {l1}-string.csv.xz'
-    p = subprocess.Popen(cmd,
-                         shell=True, stdin=subprocess.PIPE, encoding='ascii')
     print(f'{l1} ...')
-    p.stdin.write('string,frletters,frminletters,frallbigrams,frminbigrams,frquadrigrams,frminquadrigrams,frisword,frwordfreq,enletters,enminletters,enallbigrams,enminbigrams,enquadrigram,enminquadrigrams,enisword,enwordfreq\n')
+    f = lzma.open(f"{l1}-strings.csv.xz", "wt")
+    f.write('string,frletters,frminletters,frallbigrams,frminbigrams,frquadrigrams,frminquadrigrams,frisword,frwordfreq,enletters,enminletters,enallbigrams,enminbigrams,enquadrigram,enminquadrigrams,enisword,enwordfreq\n')
     for l2 in a:
         for l3 in a:
             for l4 in a:
@@ -61,7 +60,7 @@ for l1 in a:
                             None
                         #    nansquad.write()
                         else:
-                            p.stdin.write('%s,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g\n' % (w,
+                            f.write('%s,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g\n' % (w,
                                                                                                   dico.meanlogs(frstats['letters'], 0.000001),
                                                                                                   np.min(frstats['letters']),
                                                                                                   dico.meanlogs(frstats['allbigrams'], 0.000001),
@@ -78,4 +77,4 @@ for l1 in a:
                                                                                                   np.min(enstats['quadrigrams']),
                                                                                                   enisword,
                                                                                                   enlexfreq))
-    p.communicate()
+    f.close()
