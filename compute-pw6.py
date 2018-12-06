@@ -9,7 +9,7 @@ import numpy as np
 import dico
 import lzma
 
-a = string.ascii_uppercase
+a = string.ascii_lowercase
 
 #################
 frdic = dico.dico()
@@ -41,25 +41,27 @@ for l1 in a:
                 for l5 in a:
                     for l6 in a:
                         w = l1 + l2 + l3 + l4 + l5 + l6
-                        key = str(w.lower())
+                        key = str(w)
                         if key in frfreqs.index:
                             frisword = 1
                             frlexfreq = frfreqs.loc[key].freqf
                         else:
                             frisword = 0
                             frlexfreq = 0.0
-                        frstats = dico.compute_stats(w, frdic)
+                        frstats = dico.compute_stats(key, frdic)
                         if key in enfreqs.index:
                             enisword = 1
                             enlexfreq = enfreqs.loc[key].freq
                         else:
                             enisword = 0
                             enlexfreq = 0.0
-                        enstats = dico.compute_stats(w, endic)
+                        enstats = dico.compute_stats(key, endic)
+
                         if np.sum(np.array(enstats['quadrigrams'] + frstats['quadrigrams'])) == 0.0:
                             None
                         #    nansquad.write()
                         else:
+                            print(key)
                             f.write('%s,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g\n' % (w,
                                                                                                   dico.meanlogs(frstats['letters'], 0.000001),
                                                                                                   np.min(frstats['letters']),
