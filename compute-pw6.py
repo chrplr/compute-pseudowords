@@ -62,7 +62,7 @@ for l1 in a:
                         #    nansquad.write()
                         else:
                             print(key)
-                            f.write('%s,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g\n' % (w,
+                            f.write('%s,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g\n' % (w,
                                                                                                   dico.meanlogs(frstats['letters'], 0.000001),
                                                                                                   np.min(frstats['letters']),
                                                                                                   np.max(frstats['letters']),
