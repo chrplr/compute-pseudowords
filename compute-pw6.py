@@ -34,7 +34,7 @@ enfreqs = enlex6.groupby('ortho').sum()
 for l1 in a:
     print(f'{l1} ...')
     f = lzma.open(f"{l1}-strings.csv.xz", "wt")
-    f.write('string,frletters,frminletters,frallbigrams,frminbigrams,frquadrigrams,frminquadrigrams,frisword,frwordfreq,enletters,enminletters,enallbigrams,enminbigrams,enquadrigram,enminquadrigrams,enisword,enwordfreq\n')
+    f.write('string,frletters,frminletters,frmaxletters,frallbigrams,frminbigrams,frmaxbigrams,frquadrigrams,frminquadrigrams,frmaxquadrigrams,frisword,frwordfreq,enletters,enminletters,enmaxletters,enallbigrams,enminbigrams,enmaxbigrams,enquadrigrams,enminquadrigrams,enmaxquadrigrams,enisword,enwordfreq\n')
     for l2 in a:
         for l3 in a:
             for l4 in a:
@@ -65,18 +65,24 @@ for l1 in a:
                             f.write('%s,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%d,%.6g\n' % (w,
                                                                                                   dico.meanlogs(frstats['letters'], 0.000001),
                                                                                                   np.min(frstats['letters']),
+                                                                                                  np.max(frstats['letters']),
                                                                                                   dico.meanlogs(frstats['allbigrams'], 0.000001),
                                                                                                   np.min(frstats['allbigrams']),
+                                                                                                  np.max(frstats['allbigrams']),
                                                                                                   dico.meanlogs(frstats['quadrigrams'], 0.000001),
                                                                                                   np.min(frstats['quadrigrams']),
+                                                                                                  np.max(frstats['quadrigrams']),
                                                                                                   frisword,
                                                                                                   frlexfreq,
                                                                                                   dico.meanlogs(enstats['letters'], 0.000001),
                                                                                                   np.min(enstats['letters']),
+                                                                                                  np.max(enstats['letters']),
                                                                                                   dico.meanlogs(enstats['allbigrams'], 0.000001),
                                                                                                   np.min(enstats['allbigrams']),
+                                                                                                  np.max(enstats['allbigrams']),
                                                                                                   dico.meanlogs(enstats['quadrigrams'], 0.000001),
                                                                                                   np.min(enstats['quadrigrams']),
+                                                                                                  np.max(enstats['quadrigrams']),
                                                                                                   enisword,
                                                                                                   enlexfreq))
     f.close()
