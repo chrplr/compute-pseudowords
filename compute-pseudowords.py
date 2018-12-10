@@ -16,13 +16,14 @@ def generate_pseudoword(charset, nchar):
 
 def compute_pseudowords_and_stats(N, charset, nchar, frallstats, frlexfreqs, enallstats, enlexfreqs):
     """ return a DataFrame with one item per line and its associated stats. """
-    a = pd.DataFrame(columns='item,frletters,frminletters,frmaxletters,frallbigrams,frminbigrams,frmaxbigrams,frquadrigrams,frminquadrigrams,frmaxquadrigrams,frisword,frwordfreq,enletters,enminletters,enmaxletters,enallbigrams,enminbigrams,enmaxbigrams,enquadrigrams,enminquadrigrams,enmaxquadrigrams,enisword,enwordfreq'.split(','),
-                     index=range(N))
+    #a = pd.DataFrame(columns='item,frletters,frminletters,frmaxletters,frbigrams,frminbigrams,frmaxbigrams,frquadrigrams,frminquadrigrams,frmaxquadrigrams,frisword,frwordfreq,enletters,enminletters,enmaxletters,enallbigrams,enminbigrams,enmaxbigrams,enquadrigrams,enminquadrigrams,enmaxquadrigrams,enisword,enwordfreq'.split(','),
+    #                index=range(N))
+    a = pd.DataFrame(index=range(N))
     idx = 0
     listofpw = []
     while idx < NITEMS_PER_SET:
         w = generate_pseudoword(CHARSET, NCHAR)
-        while w in listofpw:  #resample if it already exists
+        while w in listofpw:  # resample if it already exists
             w = generate_pseudoword(CHARSET, NCHAR)
         listofpw.append(w)
 
@@ -43,7 +44,7 @@ def compute_pseudowords_and_stats(N, charset, nchar, frallstats, frlexfreqs, ena
                 enisword, enlexfreq = 0, 0.0
 
             a.at[idx, 'item'] = w
-            a.at[idx, 'frletter'] = sublexstats.meanlogs(frstats['letters'], 0.000001)
+            a.at[idx, 'frletters'] = sublexstats.meanlogs(frstats['letters'], 0.000001)
             a.at[idx, 'frminletters'] = np.min(frstats['letters'])
             a.at[idx, 'frmaxletters'] = np.max(frstats['letters'])
             a.at[idx, 'frbigrams'] = sublexstats.meanlogs(frstats['allbigrams'], 0.000001)
@@ -86,7 +87,7 @@ def load_freqs6(fname):
 if __name__ == '__main__':
     CHARSET = string.ascii_lowercase
     NCHAR = 6
-    NSETS = 10
+    NSETS = 3
     NITEMS_PER_SET = 10000
 
     frlex = load_freqs6('french-lexique-reduced.tsv')
@@ -95,5 +96,6 @@ if __name__ == '__main__':
     enstats = load_sublex_stats('english-blp-reduced.tsv')
 
     for iset in range(1, NSETS + 1):
+        print(f"Generating set #{iset}...")
         items = compute_pseudowords_and_stats(NITEMS_PER_SET, CHARSET, NCHAR, frstats, frlex, enstats, enlex)
         items.to_csv(f'set_{iset:04d}.csv.gz', compression='gzip')
