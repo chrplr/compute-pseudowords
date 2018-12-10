@@ -5,7 +5,7 @@
 import string
 import pandas as pd
 import numpy as np
-import dico
+import sublexstats
 from random import choices
 
 
@@ -22,8 +22,8 @@ def compute_pseudowords_and_stats(N, charset, nchar, frallstats, frlexfreqs, ena
     while idx < NITEMS_PER_SET:
         w = generate_pseudoword(CHARSET, NCHAR)
 
-        frstats = dico.compute_stats(w, frallstats)
-        enstats = dico.compute_stats(w, enallstats)
+        frstats = frallstats.get_all_stats(w)
+        enstats = enallstats.get_all_stats(w)
 
         if np.sum(np.array(enstats['quadrigrams'] + frstats['quadrigrams'])) == 0.0:
             None  # do nothing
@@ -39,24 +39,24 @@ def compute_pseudowords_and_stats(N, charset, nchar, frallstats, frlexfreqs, ena
                 enisword, enlexfreq = 0, 0.0
 
             a.at[idx, 'item'] = w
-            a.at[idx, 'frletter'] = dico.meanlogs(frstats['letters'], 0.000001)
+            a.at[idx, 'frletter'] = sublexstats.meanlogs(frstats['letters'], 0.000001)
             a.at[idx, 'frminletters'] = np.min(frstats['letters'])
             a.at[idx, 'frmaxletters'] = np.max(frstats['letters'])
-            a.at[idx, 'frbigrams'] = dico.meanlogs(frstats['allbigrams'], 0.000001)
+            a.at[idx, 'frbigrams'] = sublexstats.meanlogs(frstats['allbigrams'], 0.000001)
             a.at[idx, 'frminbigrams'] = np.min(frstats['allbigrams'])
             a.at[idx, 'frmaxbigrams'] = np.max(frstats['allbigrams'])
-            a.at[idx, 'frquadrigrams'] = dico.meanlogs(frstats['quadrigrams'], 0.000001)
+            a.at[idx, 'frquadrigrams'] = sublexstats.meanlogs(frstats['quadrigrams'], 0.000001)
             a.at[idx, 'frminquadrigrams'] = np.min(frstats['quadrigrams'])
             a.at[idx, 'frmaxquadrigrams'] = np.max(frstats['quadrigrams'])
             a.at[idx, 'frisword'] = frisword
             a.at[idx, 'frfreq'] = frlexfreq
-            a.at[idx, 'enletters'] = dico.meanlogs(enstats['letters'], 0.000001)
+            a.at[idx, 'enletters'] = sublexstats.meanlogs(enstats['letters'], 0.000001)
             a.at[idx, 'enminletters'] = np.min(enstats['letters'])
             a.at[idx, 'enmaxletters'] = np.max(enstats['letters'])
-            a.at[idx, 'enbigrams'] = dico.meanlogs(enstats['allbigrams'], 0.000001)
+            a.at[idx, 'enbigrams'] = sublexstats.meanlogs(enstats['allbigrams'], 0.000001)
             a.at[idx, 'enminbigrams'] = np.min(enstats['allbigrams'])
             a.at[idx, 'enmaxbigrams'] = np.max(enstats['allbigrams'])
-            a.at[idx, 'enquadrigrams'] = dico.meanlogs(enstats['quadrigrams'], 0.000001)
+            a.at[idx, 'enquadrigrams'] = sublexstats.meanlogs(enstats['quadrigrams'], 0.000001)
             a.at[idx, 'enminquadrigrams'] = np.min(enstats['quadrigrams'])
             a.at[idx, 'enmaxquadrigrams'] = np.max(enstats['quadrigrams'])
             a.at[idx, 'enisword'] = enisword
@@ -67,7 +67,7 @@ def compute_pseudowords_and_stats(N, charset, nchar, frallstats, frlexfreqs, ena
 
 def load_sublex_stats(fname):
     """ fname must be a csv file with two columns: ortho, and freq """
-    dic = dico.dico()
+    dic = sublexstats.sublexstats()
     dic.import_csv('french-lexique-reduced.tsv')
     return dic
 
