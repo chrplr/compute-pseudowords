@@ -19,8 +19,12 @@ def compute_pseudowords_and_stats(N, charset, nchar, frallstats, frlexfreqs, ena
     a = pd.DataFrame(columns='item,frletters,frminletters,frmaxletters,frallbigrams,frminbigrams,frmaxbigrams,frquadrigrams,frminquadrigrams,frmaxquadrigrams,frisword,frwordfreq,enletters,enminletters,enmaxletters,enallbigrams,enminbigrams,enmaxbigrams,enquadrigrams,enminquadrigrams,enmaxquadrigrams,enisword,enwordfreq'.split(','),
                      index=range(N))
     idx = 0
+    listofpw = []
     while idx < NITEMS_PER_SET:
         w = generate_pseudoword(CHARSET, NCHAR)
+        while w in listofpw:  #resample if it already exists
+            w = generate_pseudoword(CHARSET, NCHAR)
+        listofpw.append(w)
 
         frstats = frallstats.get_all_stats(w)
         enstats = enallstats.get_all_stats(w)
@@ -75,15 +79,15 @@ def load_sublex_stats(fname):
 def load_freqs6(fname):
     """ fname must be a csv file with two columns: ortho, and freq """
     lex = pd.read_csv(fname, sep='\t')
-    lex6 = lex.loc[lex.ortho.str.len() == 6]
-    return lex6.groupby('ortho').sum()
+    lex6 = lex.loc[lex.ortho.str.len() == 6]  # restrict to 6 letter words
+    return lex6.groupby('ortho').sum()  # regroup rows with same ortho
 
 
 if __name__ == '__main__':
     CHARSET = string.ascii_lowercase
     NCHAR = 6
     NSETS = 10
-    NITEMS_PER_SET = 1000
+    NITEMS_PER_SET = 10000
 
     frlex = load_freqs6('french-lexique-reduced.tsv')
     frstats = load_sublex_stats('french-lexique-reduced.tsv')
@@ -92,4 +96,4 @@ if __name__ == '__main__':
 
     for iset in range(1, NSETS + 1):
         items = compute_pseudowords_and_stats(NITEMS_PER_SET, CHARSET, NCHAR, frstats, frlex, enstats, enlex)
-        items.to_csv(f'set_{iset:04d}.csv.xz', compression='xz')
+        items.to_csv(f'set_{iset:04d}.csv.gz', compression='gzip')

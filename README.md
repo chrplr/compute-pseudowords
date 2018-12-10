@@ -1,10 +1,9 @@
-compute-pw6.py generates all possible 6-letter strings and computes letter, bigrams and quadrigram statistics from lexical frequencies in English (subtlex from the British lexicaon project) and French (FreqFilms from Lexique.org).
+% sublexical statistics
+% Christophe@Pallier.org
+% 
 
-Run
+* `compute-pseudowords.py` randomly generates 6-letter strings and computes their sublexical statistics (bigram frequencies, quadrigram frequencies, ...) from lexical frequencies in English (subtlex from the British lexicaon project) and French (FreqFilms from Lexique.org).
 
-   python compute-pw6.py
-   
-This creates 26 files [a-z]-strings.csv.xz.
+* `compute-pw6.py`  generates all possible 6-letter strings and computes their sublexical statistics.
 
 
-Christophe@Pallier.org
