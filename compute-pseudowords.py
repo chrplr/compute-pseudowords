@@ -16,8 +16,6 @@ def generate_pseudoword(charset, nchar):
 
 def compute_pseudowords_and_stats(N, charset, nchar, frallstats, frlexfreqs, enallstats, enlexfreqs):
     """ return a DataFrame with one item per line and its associated stats. """
-    #a = pd.DataFrame(columns='item,frletters,frminletters,frmaxletters,frbigrams,frminbigrams,frmaxbigrams,frquadrigrams,frminquadrigrams,frmaxquadrigrams,frisword,frwordfreq,enletters,enminletters,enmaxletters,enallbigrams,enminbigrams,enmaxbigrams,enquadrigrams,enminquadrigrams,enmaxquadrigrams,enisword,enwordfreq'.split(','),
-    #                index=range(N))
     a = pd.DataFrame(index=range(N))
     idx = 0
     listofpw = []
@@ -73,7 +71,7 @@ def compute_pseudowords_and_stats(N, charset, nchar, frallstats, frlexfreqs, ena
 def load_sublex_stats(fname):
     """ fname must be a csv file with two columns: ortho, and freq """
     dic = sublexstats.sublexstats()
-    dic.import_csv('french-lexique-reduced.tsv')
+    dic.import_csv(fname)
     return dic
 
 
@@ -87,7 +85,7 @@ def load_freqs6(fname):
 if __name__ == '__main__':
     CHARSET = string.ascii_lowercase
     NCHAR = 6
-    NSETS = 3
+    NSETS = 10
     NITEMS_PER_SET = 10000
 
     frlex = load_freqs6('french-lexique-reduced.tsv')
