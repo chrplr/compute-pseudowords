@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-# Time-stamp: <2018-11-21 06:59:24 cp983411>
+# Time-stamp: <2018-12-11 09:41:06 cp983411>
 
 
 import string
@@ -10,7 +10,7 @@ from random import choices
 
 
 def generate_pseudoword(charset, nchar):
-    """ returns a random string of characters from charset, each of length nchar."""
+    """ returns a random string of length nchar of characters from charset."""
     return ''.join(choices(charset, k=nchar))
 
 
