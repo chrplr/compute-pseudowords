@@ -247,12 +247,12 @@ class sublexstats:
 
     def get_all_meanlogstats(self, word, offset):
         """ extracts meanlog stats from 'self' for the subcomponents of 'word' """
-        letterfreq = meanlogs(self.get_stats_letters(word))
-        bigramfreq = meanlogs(self.get_stats_bigrams(word))
-        openbigramfreq = meanlogs(self.get_stats_openbigrams(word))
-        allbigramfreq = meanlogs(self.get_stats_allbigrams(word))
-        trigramfreq = meanlogs(self.get_stats_trigrams(word))
-        quadrigramfreq = meanlogs(self.get_stats_quadrigrams(word))
+        letterfreq = meanlogs(self.get_stats_letters(word), offset)
+        bigramfreq = meanlogs(self.get_stats_bigrams(word), offset)
+        openbigramfreq = meanlogs(self.get_stats_openbigrams(word), offset)
+        allbigramfreq = meanlogs(self.get_stats_allbigrams(word), offset)
+        trigramfreq = meanlogs(self.get_stats_trigrams(word), offset)
+        quadrigramfreq = meanlogs(self.get_stats_quadrigrams(word), offset)
         return {'letters': letterfreq,
                 'bigrams': bigramfreq,
                 'openbigrams': openbigramfreq,
