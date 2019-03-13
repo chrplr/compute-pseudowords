@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-# Time-stamp: <2019-01-05 13:51:19 cp983411>
+# Time-stamp: <2019-03-13 10:52:28 christophe@pallier.org>
 
 """ Provides a 'sublexstats' object that tracks the frequencies of letters,
     bigrams, trigrams and words.
@@ -126,6 +126,7 @@ class sublexstats:
             df = pd.read_csv(filename,
                              sep=sep,
                              header=header,
+                             na_filter=False,
                              compression=compression).dropna()
             self.import_dataframe(df)
             if (caching):
@@ -338,6 +339,8 @@ def normalize_dictio(dictio):
 
 
 def meanlogs(liste, offset=1e-20):
+    if liste == []:
+        return np.NaN
     if np.sum(np.array(liste)) == 0.0:
         return np.NaN
 
