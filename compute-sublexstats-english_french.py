@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
-# Time-stamp: <2019-03-13 12:40:40 christophe@pallier.org>
-
+# Time-stamp: <2019-03-15 14:50:45 christophe@pallier.org>
 
 import subprocess
 import string
@@ -36,21 +35,21 @@ f.write('string,frletters,frminletters,frmaxletters,frallbigrams,frminbigrams,fr
 for word in frlex.ortho:
         frstats = frdic.get_all_stats(word)
         f.write('%s,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g\n' % (word,
-                                                                                                                            sublexstats.meanlogs(frstats['letters'], 0.000001),
-                                                                                                                            mymin(frstats['letters']),
-                                                                                                                            mymax(frstats['letters']),
-                                                                                                                            sublexstats.meanlogs(frstats['allbigrams'], 0.000001),
-                                                                                                                            mymin(frstats['allbigrams']),
-                                                                                                                            mymax(frstats['allbigrams']),
-                                                                                                                            sublexstats.meanlogs(frstats['quadrigrams'], 0.000001),
-                                                                                                                            mymin(frstats['quadrigrams']),
-                                                                                                                            mymax(frstats['quadrigrams']),
-                                                                                                                            frfreqs.freq[word]))
-
+                                                                            sublexstats.meanlogs(frstats['letters'], 0.000001),
+                                                                            mymin(frstats['letters']),
+                                                                            mymax(frstats['letters']),
+                                                                            sublexstats.meanlogs(frstats['allbigrams'], 0.000001),
+                                                                            mymin(frstats['allbigrams']),
+                                                                            mymax(frstats['allbigrams']),
+                                                                            sublexstats.meanlogs(frstats['quadrigrams'], 0.000001),
+                                                                            mymin(frstats['quadrigrams']),
+                                                                            mymax(frstats['quadrigrams']),
+                                                                            frfreqs.freq[word]))
 f.close()
 
 
-##################
+################## English
+
 endic = sublexstats.sublexstats()
 endic.import_csv('english-freqfilms.csv', caching=True)
 
@@ -65,17 +64,14 @@ f.write('string,enletters,enminletters,enmaxletters,enallbigrams,enminbigrams,en
 for word in enlex.ortho:
         enstats = endic.get_all_stats(word)
         f.write('%s,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g,%.6g\n' % (word,
-                                                                                                                            sublexstats.meanlogs(enstats['letters'], 0.000001),
-                                                                                                                            mymin(enstats['letters']),
-                                                                                                                            mymax(enstats['letters']),
-                                                                                                                            sublexstats.meanlogs(enstats['allbigrams'], 0.000001),
-                                                                                                                            mymin(enstats['allbigrams']),
-                                                                                                                            mymax(enstats['allbigrams']),
-                                                                                                                            sublexstats.meanlogs(enstats['quadrigrams'], 0.000001),
-                                                                                                                            mymin(enstats['quadrigrams']),
-                                                                                                                            mymax(enstats['quadrigrams']),
-                                                                                                                            enfreqs.freq[word]))
-
+                                                                            sublexstats.meanlogs(enstats['letters'], 0.000001),
+                                                                            mymin(enstats['letters']),
+                                                                            mymax(enstats['letters']),
+                                                                            sublexstats.meanlogs(enstats['allbigrams'], 0.000001),
+                                                                            mymin(enstats['allbigrams']),
+                                                                            mymax(enstats['allbigrams']),
+                                                                            sublexstats.meanlogs(enstats['quadrigrams'], 0.000001),
+                                                                            mymin(enstats['quadrigrams']),
+                                                                            mymax(enstats['quadrigrams']),
+                                                                            enfreqs.freq[word]))
 f.close()
-
-

@@ -1,4 +1,13 @@
-""" Estimate sublexical statistics from the 4 files '{english,french}-freq{books,films}.csv' and save them in pickle files.
+#! /usr/bin/env python3
+# Time-stamp: <2019-03-15 14:41:30 christophe@pallier.org>
+
+""" Estimate sublexical statistics from the four files '{english,french}-freq{books,films}.csv' and save them in pickle files:
+
+    french-freqfilms.sublexstats
+    french-freqbooks.sublexstats
+    english-freqfilms.sublexstats
+    english-freqbooks.sublexstats
+
 """
 
 from sublexstats import sublexstats

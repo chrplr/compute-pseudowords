@@ -1,3 +1,11 @@
+#! /usr/bin/env python3
+# Time-stamp: <2019-03-15 14:24:07 christophe@pallier.org>
+
+"""
+Add sublexical statistics to selected*.csv files
+"""
+
+
 import os
 import glob
 import pandas as pd
@@ -5,6 +13,17 @@ from sublexstats import sublexstats
 
 
 def process(sfile, fr_books, en_books):
+    """Add sublexical stats to a  file.
+
+    Args:
+          sfile is a csv file with one columns named 'item'
+          fr_books and en_books are both sublexstats objects containing sublexical statistics
+
+    Returns:
+          a dataframe corresponding to sfile's content with additional
+          columns with french and english sublexical stats
+    """
+
     df = pd.read_csv(sfile)
     frletters_bk, frbigrams_bk, frquadrigrams_bk = [], [], []
     enletters_bk, enbigrams_bk, enquadrigrams_bk = [], [], []
@@ -32,14 +51,15 @@ def process(sfile, fr_books, en_books):
     return df
 
 
-en_books = sublexstats()
-en_books.import_csv('english-freqbooks.csv')
+if __name__ == '__main__':
+    en_books = sublexstats()
+    en_books.import_csv('english-freqbooks.csv')
 
-fr_books = sublexstats()
-fr_books.import_csv('french-freqbooks.csv')
+    fr_books = sublexstats()
+    fr_books.import_csv('french-freqbooks.csv')
 
-for sfile in glob.glob('selected*.csv'):
-    df = process(sfile, fr_books, en_books)
-    outfname, ext = os.path.splitext(sfile)
-    outfname += '_bk' + ext
-    df.to_csv(outfname)
+    for sfile in glob.glob('selected*.csv'):
+        df = process(sfile, fr_books, en_books)
+        outfname, ext = os.path.splitext(sfile)
+        outfname += '_bk' + ext
+        df.to_csv(outfname)

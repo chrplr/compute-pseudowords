@@ -1,8 +1,17 @@
-""" Creates two reduced versions of Lexique, extracting ortho, freqfilms2 and freqlivres and two reduced version of the British Lexicon Project """
+#! /usr/bin/env python3
+# Time-stamp: <2019-03-15 14:37:01 christophe@pallier.org>
 
+"""
+Creates reduced versions of Lexique and the British Lexicon Project:
+
+    french-freqfilms.csv
+    french-freqbooks.csv
+    english-freqfilms.csv
+    english-freqbooks.csv
+
+"""
 
 import pandas as pd
-
 
 ## French 
 fr = pd.read_csv('French-Lexique382.csv', sep='\t')
