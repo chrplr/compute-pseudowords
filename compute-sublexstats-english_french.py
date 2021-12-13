@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-# Time-stamp: <2019-03-15 14:50:45 christophe@pallier.org>
+# Time-stamp: <2019-04-01 21:24:04 christophe@pallier.org>
 
 import subprocess
 import string
@@ -28,6 +28,7 @@ frdic.import_csv('french-freqfilms.csv', caching=True)
 
 frlex = pd.read_csv('french-freqfilms.csv', sep='\t', na_filter=False)
 frfreqs = frlex.groupby('ortho').sum()
+frfreqs.freq = frfreqs / frfreqs.sum()
 
 f = open("french-stats.csv", "wt")
 f.write('string,frletters,frminletters,frmaxletters,frallbigrams,frminbigrams,frmaxbigrams,frquadrigrams,frminquadrigrams,frmaxquadrigrams,frwordfreq\n')
@@ -55,6 +56,7 @@ endic.import_csv('english-freqfilms.csv', caching=True)
 
 enlex = pd.read_csv('english-blp-reduced.tsv', sep='\t', na_filter=False)
 enfreqs = enlex.groupby('ortho').sum()
+enfreqs.freq = enfreqs.freq / enfreqs.freq.sum()
 
 ##################
 

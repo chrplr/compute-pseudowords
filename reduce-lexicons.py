@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-# Time-stamp: <2019-03-15 14:37:01 christophe@pallier.org>
+# Time-stamp: <2019-04-01 21:09:10 christophe@pallier.org>
 
 """
 Creates reduced versions of Lexique and the British Lexicon Project:
@@ -26,8 +26,8 @@ fr[['1_ortho', '10_freqlivres']].rename(columns={'1_ortho': 'ortho',
 
 en = pd.read_csv('British-Lexicon-Project.tsv', sep='\t')
 
-en[['spelling', 'bnc.frequency.million']].rename(columns={'spelling': 'ortho',
-                                                           'subtlex.frequency': 'freq'}).to_csv('english-freqfilms.csv', sep='\t', index=False)
+en[['spelling', 'subtlex.frequency']].rename(columns={'spelling': 'ortho',
+                                                          'subtlex.frequency': 'freq'}).to_csv('english-freqfilms.csv', sep='\t', index=False)
 
 en[['spelling', 'bnc.frequency.million']].rename(columns={'spelling': 'ortho',
                                                            'bnc.frequency.million': 'freq'}).to_csv('english-freqbooks.csv', sep='\t', index=False)
