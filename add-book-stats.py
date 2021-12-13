@@ -25,30 +25,20 @@ def process(sfile, fr_books, en_books):
     """
 
     df = pd.read_csv(sfile)
-    frletters_bk, frbigrams_bk, frquadrigrams_bk = [], [], []
-    enletters_bk, enbigrams_bk, enquadrigrams_bk = [], [], []
+    df_enstats, df_frstats = pd.DataFrame(), pd.DataFrame()
 
     for ix in range(len(df)):
         item = str(df.item.iloc[ix])  # read in the column 'item'
-
         frstats = fr_books.get_all_meanlogstats(item, offset=1e-6)
-        frletters_bk.append(frstats['letters'])
-        frbigrams_bk.append(frstats['allbigrams'])
-        frquadrigrams_bk.append(frstats['quadrigrams'])
-
         enstats = en_books.get_all_meanlogstats(item, offset=1e-6)
-        enletters_bk.append(enstats['letters'])
-        enbigrams_bk.append(enstats['allbigrams'])
-        enquadrigrams_bk.append(enstats['quadrigrams'])
+        df_enstats = df_enstats.append(enstats, ignore_index=True)
+        df_frstats = df_frstats.append(frstats, ignore_index=True)
 
-    df['frletters_bk'] = pd.Series(frletters_bk)
-    df['frbigrams_bk'] = pd.Series(frbigrams_bk)
-    df['frquadrigrams_bk'] = pd.Series(frquadrigrams_bk)
-    df['enletters_bk'] = pd.Series(enletters_bk)
-    df['enbigrams_bk'] = pd.Series(enbigrams_bk)
-    df['enquadrigrams_bk'] = pd.Series(enquadrigrams_bk)
+    df_enstats = df_enstats.add_prefix('en_')
+    df_frstats = df_frstats.add_prefix('fr_')
+    return pd.concat([df, df_enstats, df_frstats], axis=1)
 
-    return df
+
 
 
 if __name__ == '__main__':
